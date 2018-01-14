@@ -3,18 +3,26 @@
 Code for replicating the experiments in the paper [Non-Convex Finite-Sum Optimization Via SCSG Methods](https://papers.nips.cc/paper/6829-non-convex-finite-sum-optimization-via-scsg-methods.pdf) by Lihua Lei, Cheng Ju, Jianbo Chen, Michael I. Jordan. 
 
 ## Dependencies
-This project runs with Python 2.7. Please `pip install` the following packages:
+This project runs with Python 2.7 and requires Tensorflow of version 1.2.1 or higher. Please `pip install` the following packages:
 - `numpy`
 - `tensorflow`
-
-Currently it requires Tensorflow of version 1.2.1 or higher. 
+ 
+Or you may run the following command in shell to install the required packages:
+```shell
+git clone https://github.com/Jianbo-Lab/SCSG
+cd SCSG
+sudo pip install -r requirements.txt
+```
 
 ## Running in Docker, MacOS or Ubuntu
 We provide the source code to run the MNIST example. Run the following commands in shell:
 
 ```shell
+###############################################
+# Omit if already git cloned.
 git clone https://github.com/Jianbo-Lab/SCSG
-cd SCSG  
+cd SCSG 
+############################################### 
 python experiments/run_mnist_experiment.py 
 ```
 
