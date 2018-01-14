@@ -18,10 +18,13 @@ cd SCSG
 python run_mnist_experiment.py 
 ```
 
-The results will be printed in shell. 
+The configurations for each experiment can be changed in command-line interfaces. For example, the following code runs an MNIST experiment with a three-layer fully-connected neural network, SCSG for gradient update, fixed batchsize 1,000, learning rate 0.01 and the ratio of batch size and mini-batch size being 32 for 400 iterations: 
 
-To 
+```shell 
+python run_mnist_experiment.py --model 'fc' --method 'scsg' --batch_size 1000 --num_iterations 400 --learning_rate 0.01 --ratio 32 --fix_batch
+```
 
+See `experiments/run_mnist_experiment.py` for details. 
 ## Citation
 If you use this code for your research, please cite our [paper](https://papers.nips.cc/paper/6829-non-convex-finite-sum-optimization-via-scsg-methods.pdf):
 ```
