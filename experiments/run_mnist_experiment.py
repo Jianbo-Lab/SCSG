@@ -12,7 +12,7 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 from tensorflow.examples.tutorials.mnist import input_data
 import sys
-sys.path.append('../core') 
+sys.path.append('core') 
 from scsg import *
 from model import * 
 
@@ -101,7 +101,7 @@ def main():
 		choices = ['scsg', 'sgd']) 
 	parser.add_argument('--batch_size',type=int, default = 1000)
 	parser.add_argument('--num_iterations',type=int, default = 400) 
-	parser.add_argument('--learning_rate',type=float, default = 0.1)
+	parser.add_argument('--learning_rate',type=float, default = 0.001)
 	parser.add_argument('--ratio',type=int,default=32) 
 	parser.add_argument('--fix_batch', action='store_true')
 	args = parser.parse_args() 

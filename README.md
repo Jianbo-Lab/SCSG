@@ -15,13 +15,13 @@ We provide the source code to run the MNIST example. Run the following commands 
 ```shell
 git clone https://github.com/Jianbo-Lab/SCSG
 cd SCSG  
-python run_mnist_experiment.py 
+python experiments/run_mnist_experiment.py 
 ```
 
-The configurations for each experiment can be changed in command-line interfaces. For example, the following code runs an MNIST experiment with a three-layer fully-connected neural network, SCSG for gradient update, fixed batchsize 1,000, learning rate 0.01 and the ratio of batch size and mini-batch size being 32 for 400 iterations: 
+The configurations for each experiment can be changed in command-line interfaces. For example, the following code runs an MNIST experiment with a three-layer fully-connected neural network, SCSG for gradient update, fixed batchsize being 1,000, learning rate being 0.01 and the ratio of batch size and mini-batch size being 32 for 400 iterations: 
 
 ```shell 
-python run_mnist_experiment.py --model 'fc' --method 'scsg' --batch_size 1000 --num_iterations 400 --learning_rate 0.01 --ratio 32 --fix_batch
+python experiments/run_mnist_experiment.py --model 'fc' --method 'scsg' --batch_size 1000 --num_iterations 400 --learning_rate 0.01 --ratio 32 --fix_batch
 ```
 
 See `experiments/run_mnist_experiment.py` for details. 

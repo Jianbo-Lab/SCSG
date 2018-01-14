@@ -13,7 +13,7 @@ class SCSGOptimizer(tf.train.Optimizer):
 		self._learning_rate = learning_rate  
 
 		# Build graph for gradient computation.
-		self._grads_and_vars = self.compute_gradients(loss)
+		self._grads_and_vars = self._compute_gradients(loss)
 
 		# Build placeholder for variance reduction terms. 
 		self._variance_reduction_ph = [tf.placeholder(tf.float32, 
@@ -22,9 +22,9 @@ class SCSGOptimizer(tf.train.Optimizer):
 				shape=v.get_shape()) for v in zip(*self._grads_and_vars)[1]]	
 
 		# Build graph for carrying out one update within a batch I_j.
-		self._update = self.compute_each_update()	
+		self._update = self._compute_single_update()	
 
-	def compute_gradients(self, loss): 
+	def _compute_gradients(self, loss): 
 		""" 
 		Build graph for gradient computation.
 		"""
@@ -37,7 +37,7 @@ class SCSGOptimizer(tf.train.Optimizer):
 		return grads_and_vars
 
 
-	def compute_each_update(self):  
+	def _compute_single_update(self):  
 		""" 
 		Build graph for carrying out one update with a batch I_j.
 		"""
