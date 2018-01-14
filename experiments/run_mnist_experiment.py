@@ -18,7 +18,7 @@ from model import *
 
 def run_single_experiment(method='sgd',
 				 model = 'cnn',
-				 batch_size = 100, 
+				 batch_size = 1000, 
 				 learning_rate = 0.001,
 				 ratio = 10,
 				 num_iterations = 400, 
@@ -62,7 +62,7 @@ def run_single_experiment(method='sgd',
 
 		for j in range(num_iterations):
 			if not fix_batch: 
-				batch_size = int((j+1) ** 1.5)
+				batch_size = int((j+1) ** 1.5) 
 
 			mini_batchsize = max(1,int(batch_size / float(ratio))) # mini-batch size. 
 			batch = mnist.train.next_batch(batch_size)
@@ -75,7 +75,7 @@ def run_single_experiment(method='sgd',
 				_ = sess.run(train_op,
 						 feed_dict=feed_dict) 
 			num_used_data += batch_size
-			if (j % 3 == 0 and (not fix_batch)) or (j % (num_iterations// 10) == 0 and fix_batch):
+			if (j % 3 == 0 and (not fix_batch)) or (j % (num_iterations// 100) == 0 and fix_batch):
 				# Record loss and accuracy every 3 iterations.
 				samples = np.random.choice(range(mnist.train._num_examples),
 					size = 10000, replace = False)

@@ -54,37 +54,29 @@ class SCSGOptimizer(tf.train.Optimizer):
 
 	def batch_update(self,sess,feed_dict, batch_size, mini_batchsize, lr = None): 
 		input_ph = feed_dict.keys()
-		input_data = feed_dict.values()
-		grads_and_vars = [] 
+		input_data = feed_dict.values() 
 		feed_dict_single = []
+		gs, tvars = zip(*self._grads_and_vars)  
 
-		# Construct the feed_dict for each update within a batch I_j.
+		# Compute the bias correction term.  
+		bias_correction = sess.run(gs, 
+			feed_dict=dict(zip(input_ph, input_data))) 
+
+		# Initialize the feed_dict for each mini-batch update.
 		for i in range(int(batch_size/mini_batchsize)):
 			feed_dict_single.append({input_ph[j]:\
 			input_data[j][i*mini_batchsize: (i + 1) * mini_batchsize] for j in range(len(input_data))})
 
-		# Compute the gradient for mini batches within a batch I_j. 
-		gs, tvars = zip(*self._grads_and_vars)
-		for i in range(int(batch_size/mini_batchsize)): 
-			single_grads_and_vars = sess.run(gs, 
-				feed_dict = feed_dict_single[i]) 
-
-			grads_and_vars.append(single_grads_and_vars) 
-
-		# Compute the bias correction term. 
-		bias_correction = sess.run(gs, feed_dict={input_ph[j]:input_data[j] \
-			for j in range(len(input_data))}) 
-
 		# Carry out the update.
-		for i in range(int(batch_size/mini_batchsize)): 
-			_feed_dict = feed_dict_single[i]
+		for i in range(int(batch_size/mini_batchsize)):
+			# Compute the gradient for each mini-batch update. 
+			single_grads_and_vars = sess.run(gs, 
+				feed_dict = feed_dict_single[i])  
 
-			_feed_dict.update({self._bias_correction_ph[k]: bias_correction[k] for k \
-				in range(len(bias_correction))})
-
-			_feed_dict.update({self._variance_reduction_ph[k]:grads_and_vars[i][k] for k \
-				in range(len(grads_and_vars[i]))})
-
+			# Construct the feed dict for the mini batch update. 
+			_feed_dict = feed_dict_single[i] 
+			_feed_dict.update(dict(zip(self._bias_correction_ph, bias_correction)))  
+			_feed_dict.update(dict(zip(self._variance_reduction_ph, single_grads_and_vars)))
 
 			_ = sess.run(self._update,
 			feed_dict = _feed_dict)
